@@ -8,7 +8,20 @@ export const authSchema = z.object({
   password: z.string().min(8, { message: "Password minimal 8 karakter" }),
 });
 
-export type User = z.infer<typeof authSchema>;
+// export type User = z.infer<typeof authSchema>;
+
+export type Role = "PENGAWAS" | "JURI" | "ADMIN";
+export type User = {
+  id: string;
+  username: string;
+  role: Role;
+  kegiatan_id: string;
+};
+
+export type UserContextType = {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+};
 
 export const peserta = z.object({
   nama: z.string().min(2, { message: "Nama diperlukan" }),

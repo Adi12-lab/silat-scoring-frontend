@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
@@ -25,11 +26,11 @@ import {
 import { Input } from "~/components/ui/input";
 import PasswordInput from "~/components/ui/password-input";
 
-import { User, authSchema } from "~/schema";
+import { authSchema } from "~/schema";
 
 function Login() {
   const navigate = useNavigate();
-  const form = useForm<User>({
+  const form = useForm<z.infer<typeof authSchema>>({
     resolver: zodResolver(authSchema),
     defaultValues: {
       username: "",
@@ -47,7 +48,7 @@ function Login() {
       toast.error("username / password salah");
     },
   });
-  function onSubmit(values: User) {
+  function onSubmit(values: z.infer<typeof authSchema>) {
     loginMutation.mutate(values);
   }
 
