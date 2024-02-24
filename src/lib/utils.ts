@@ -23,6 +23,13 @@ export function rgbToHex(rgb: string): string {
   return hexColor;
 }
 
+export function formatTanggal(date: Date) {
+  const f = new Intl.DateTimeFormat("id-ID", {
+    dateStyle: "full",
+  });
+  return f.format(date);
+}
+
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_URL,
   withCredentials: true,

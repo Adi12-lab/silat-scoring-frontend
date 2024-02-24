@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sidebar as SidebarComponent, Menu, MenuItem } from "react-pro-sidebar";
 import { NavLink, useLocation } from "react-router-dom";
-import { GripVertical, Home, Power, Calendar } from "lucide-react";
+import { GripVertical, Home, Power, Calendar, SquareUser} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import ServiceAuth from "~/actions/authentication";
 
@@ -80,6 +80,9 @@ function Sidebar({ toggled, setToggled, setBroken }: SidebarProps) {
         </MenuItem>
         <MenuItem component={<NavLink to="/kegiatan" />} icon={<Calendar />} active={location.pathname === "/kegiatan"}>
           Kegiatan
+        </MenuItem>
+        <MenuItem component={<NavLink to="/user" />} icon={<SquareUser />} active={location.pathname === "/user"}>
+          User
         </MenuItem>
         <MenuItem icon={<Power />} onClick={() => logoutMutation.mutate()}>
           Logout

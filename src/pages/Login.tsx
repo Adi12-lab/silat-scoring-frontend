@@ -105,13 +105,7 @@ function Login() {
               <Button
                 type="submit"
                 disabled={loginMutation.isPending}
-                className={
-                  loginMutation.isPending
-                    ? "bg-primary/70 cursor-not-allowed"
-                    : ""
-                }
               >
-                {" "}
                 {loginMutation.isPending ? "Logging..." : "Login"}
               </Button>
             </CardFooter>

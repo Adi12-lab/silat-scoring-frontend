@@ -1,23 +1,28 @@
 import { createContext, useState } from "react";
-import { User, UserContextType } from "~/schema";
+import { UserNoPassword } from "~/schema";
+
+
+
 export const UserContext = createContext<UserContextType>({
   user: {
     id: "",
-    kegiatan_id: "",
     role: "JURI",
     username: "",
   },
   setUser: () => {},
 });
+export type UserContextType = {
+  user: UserNoPassword;
+  setUser: React.Dispatch<React.SetStateAction<UserNoPassword>>;
+};
 
 export default function UserProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<UserNoPassword>({
     id: "",
-    kegiatan_id: "",
     role: "JURI",
     username: "",
   });

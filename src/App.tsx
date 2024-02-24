@@ -6,7 +6,9 @@ const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 //Admin
-const Kegiatan = lazy(() => import("./pages/Kegiatan"));
+const Kegiatan = lazy(() => import("./pages/Admin/Kegiatan/Kegiatan"));
+const User = lazy(() => import("./pages/Admin/User/User"));
+const Peserta = lazy(() => import("./pages/Peserta/Peserta"));
 function App() {
   return (
     <BrowserRouter>
@@ -19,7 +21,7 @@ function App() {
             </Suspense>
           }
         />
-        <Route element={<ProtectedRoute roles={["ADMIN", "PENGAWAS"]} />}>
+        <Route element={<ProtectedRoute roles={["ADMIN", "JURI"]} />}>
           <Route
             path="/dashboard"
             element={
@@ -39,11 +41,28 @@ function App() {
               </Suspense>
             }
           />
+          <Route
+            path="/user"
+            element={
+              <Suspense fallback={"Loading"}>
+                <User />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/kegiatan/:kegiatan/peserta"
+            element={<Suspense fallback={"Loading"}>
+              <Peserta />
+            </Suspense>}
+          />
         </Route>
-        
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+// export const SuspenseWrap = ({ children }: { children: React.ReactNode }) => {
+//   return <Suspense fallback="Loading">{children}</Suspense>;
+// };
