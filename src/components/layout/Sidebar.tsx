@@ -81,6 +81,12 @@ function Sidebar({ toggled, setToggled, setBroken }: SidebarProps) {
         <MenuItem component={<NavLink to="/kegiatan" />} icon={<Calendar />} active={location.pathname === "/kegiatan"}>
           Kegiatan
         </MenuItem>
+        <MenuItem component={<NavLink to="/kategori" />} icon={<Calendar />} active={location.pathname === "/kategori"}>
+          Kategori
+        </MenuItem>
+        <MenuItem component={<NavLink to="/kelas" />} icon={<Calendar />} active={location.pathname === "/kelas"}>
+          Kelas
+        </MenuItem>
         <MenuItem component={<NavLink to="/user" />} icon={<SquareUser />} active={location.pathname === "/user"}>
           User
         </MenuItem>

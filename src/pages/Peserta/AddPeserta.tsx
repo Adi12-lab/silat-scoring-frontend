@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { PlusSquare } from "lucide-react";
 
-import { pesertaSchema, Kelas, Peserta } from "~/schema";
+import { pesertaSchema, Kelas, Kategori, NewPeserta } from "~/schema";
 import ServicePeserta from "~/actions/peserta";
 import {
   Dialog,
@@ -36,8 +36,17 @@ import {
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { generateString } from "~/lib/utils";
 
-function AddPeserta({ kegiatan_id }: { kegiatan_id: string }) {
+function AddPeserta({
+  kegiatan_id,
+  kelasData,
+  kategoriData,
+}: {
+  kegiatan_id: string;
+  kategoriData: Kategori[];
+  kelasData: Kelas[];
+}) {
   const queryClient = useQueryClient();
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -46,12 +55,12 @@ function AddPeserta({ kegiatan_id }: { kegiatan_id: string }) {
     defaultValues: {
       nama: "",
       daerah: "",
-      kelas: "C",
       perguruan: "",
       kegiatan_id, //bisa karena pertama kali ter render akan melihat props nya
+      kelas_id: 0,
+      kategori_id: 0,
     },
   });
-
 
   const pesertaMutation = useMutation({
     mutationKey: ["add-peserta"],
@@ -66,7 +75,7 @@ function AddPeserta({ kegiatan_id }: { kegiatan_id: string }) {
     },
   });
 
-  function onSubmit(values: Peserta) {
+  function onSubmit(values: NewPeserta) {
     pesertaMutation.mutate(values);
     // console.log(values);
   }
@@ -136,20 +145,59 @@ function AddPeserta({ kegiatan_id }: { kegiatan_id: string }) {
 
             <FormField
               control={form.control}
-              name="kelas"
+              name="kelas_id"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Kelas</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value.toString()}
+                  >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={Kelas[0]} />
+                        <SelectValue defaultValue={kelasData[0].id} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Kelas.map((item) => (
-                        <SelectItem key={item} value={item}>
-                          {item}
+                      {kelasData.map((item: Kelas) => (
+                        <SelectItem
+                          key={generateString(5)}
+                          value={item.id.toString()}
+                        >
+                          {item.nama}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="kategori_id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Kategori</FormLabel>
+                  <Select
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={kategoriData[0].id}
+                          placeholder={kategoriData[0].nama}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {kategoriData.map((item: Kategori) => (
+                        <SelectItem
+                          key={generateString(5)}
+                          value={item.id.toString()}
+                        >
+                          {item.nama}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -30,6 +30,18 @@ export function formatTanggal(date: Date) {
   return f.format(date);
 }
 
+export function generateString(length: number) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result;
+}
+
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_URL,
   withCredentials: true,
