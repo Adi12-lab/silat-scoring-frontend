@@ -1,4 +1,5 @@
 import { z } from "zod";
+import Kategori from "~/pages/Admin/Kategori/Kategori";
 
 export const authSchema = z.object({
   username: z
@@ -37,6 +38,28 @@ export const pesertaSchema = z.object({
   kelas_id: z.number({ required_error: "Kelas peserta harus ada" }),
 });
 
+export const pertandinganSchema = z.object({
+  sudut_merah_id: z.string().min(2, { message: "Sudut merah harus ada" }),
+  sudut_biru_id: z.string().min(2, { message: "Sudut biru harus ada" }),
+  gelanggang: z.string().min(2, { message: "Nama gelanggang" }),
+  kegiatan_id: z.string().min(2, { message: "Kegiatan harus ada" }),
+});
+
+export const babakStatusSchema = z.enum([
+  "belum_dimulai",
+  "berjalan",
+  "jeda",
+  "selesai",
+]);
+
+export const babakSchema = z.object({
+  no: z.number().min(1, {message: 'No tidak valid'}),
+  status: babakStatusSchema,
+  timer: z.number().min(1, {message: 'Timer tidak valid'}),
+  waktu_mulai: z.date().optional(),
+  pertandingan_id: z.number({ required_error: "Pertandingan harus ada" }),
+});
+
 //Types
 
 export type NewKegiatan = z.infer<typeof kegiatanSchema>;
@@ -57,3 +80,17 @@ export type Peserta = NewPeserta & { id: string };
 export type PesertaComplete = Peserta & { kategori: Kategori } & {
   kelas: Kelas;
 };
+
+export type NewPertandingan = z.infer<typeof pertandinganSchema>;
+export type Pertandingan = NewPertandingan & { id: number };
+export type PertandinganComplete = Pertandingan & {
+  sudut_merah: Peserta;
+} & {
+  sudut_biru: Peserta;
+  kelas: string;
+  kategori: string;
+};
+
+export type BabakStatus = z.infer<typeof babakStatusSchema>;
+export type NewBabak = z.infer<typeof babakSchema>;
+export type Babak = NewBabak & { id: number };

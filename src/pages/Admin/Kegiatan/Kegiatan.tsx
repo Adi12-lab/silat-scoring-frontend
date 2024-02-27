@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { User, Trash2, Swords } from "lucide-react";
 import Wrapper from "~/components/layout/Wrapper";
-import { z } from "zod";
 import ServiceKegiatan from "~/actions/kegiatan";
 import { formatTanggal } from "~/lib/utils";
 
@@ -15,7 +14,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 
-import { kegiatanSchema } from "~/schema";
+import { Kegiatan as KegiatanType } from "~/schema";
 import { Button } from "~/components/ui/button";
 import AddKegiatan from "./AddKegiatan";
 import { Anchor } from "~/components/ui/anchor";
@@ -49,7 +48,7 @@ function Kegiatan() {
         </TableHeader>
         <TableBody>
           {data &&
-            data.map((item: z.infer<typeof kegiatanSchema>) => (
+            data.map((item: KegiatanType) => (
               <TableRow key={item.id}>
                 <TableCell>{item.nama}</TableCell>
                 <TableCell>{formatTanggal(new Date(item.tanggal))}</TableCell>
@@ -61,7 +60,7 @@ function Kegiatan() {
                   >
                     <User />
                   </Anchor>
-                  <Anchor variant={"warning"} size={"icon"} href="#">
+                  <Anchor variant={"warning"} size={"icon"} href={`kegiatan/${item.id}/pertandingan`}>
                     <Swords />
                   </Anchor>
                   <Button variant={"destructive"} size="icon">

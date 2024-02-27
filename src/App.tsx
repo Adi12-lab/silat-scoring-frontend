@@ -11,6 +11,10 @@ const User = lazy(() => import("./pages/Admin/User/User"));
 const Kategori = lazy(() => import("./pages/Admin/Kategori/Kategori"));
 const Kelas = lazy(() => import("./pages/Admin/Kelas/Kelas"));
 const Peserta = lazy(() => import("./pages/Peserta/Peserta"));
+const Pertandingan = lazy(() => import("./pages/Pertandingan/Pertandingan"));
+const DetailPertandingan = lazy(
+  () => import("./pages/Pertandingan/DetailPertandingan")
+);
 
 function App() {
   return (
@@ -52,14 +56,24 @@ function App() {
               </Suspense>
             }
           />
-          <Route
-            path="/kegiatan/:kegiatan/peserta"
-            element={
-              <Suspense fallback={"Loading"}>
-                <Peserta />
-              </Suspense>
-            }
-          />
+          <Route path="/kegiatan/:kegiatan">
+            <Route
+              path="peserta"
+              element={
+                <Suspense fallback={"Loading"}>
+                  <Peserta />
+                </Suspense>
+              }
+            />
+            <Route
+              path="pertandingan"
+              element={
+                <Suspense fallback={"Loading"}>
+                  <Pertandingan />
+                </Suspense>
+              }
+            />
+          </Route>
           <Route
             path="/kategori"
             element={
@@ -73,6 +87,14 @@ function App() {
             element={
               <Suspense fallback={"Loading"}>
                 <Kelas />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/pertandingan/:pertandingan"
+            element={
+              <Suspense fallback={"Loading"}>
+                <DetailPertandingan />
               </Suspense>
             }
           />
